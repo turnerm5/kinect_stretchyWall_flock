@@ -28,14 +28,14 @@ float globalCoherence;
 float globalAlign;
 
 Flock flock;
-
-ArrayList<PVector> repellerArray; // An ArrayList for all the repellers
+Repellers repellers;
 
 void setup() {
   size(1024, 768);
   noStroke();
 
   flock = new Flock();
+  repellers = new Repellers();
 
   //our flock settings
   globalSep = 24;
@@ -44,7 +44,6 @@ void setup() {
   globalCoherence = 228.43;
   globalAlign = 21.58;
 
-  repellerArray = new ArrayList<PVector>(); // Initialize the ArrayList
 
   //if we're not in debug mode, initialize the Kinect
   if (!debugMode){
@@ -84,8 +83,7 @@ void draw() {
   }
 
   flock.run();
-
-  displayRepellers();
+  repellers.display();
 
 }
 
@@ -112,7 +110,7 @@ void keyPressed() {
   }
 
   if (key == 's'){
-    removeRepellers();
+    repellers.clear();
   }
 
   if (correctionMode){
@@ -159,22 +157,9 @@ void keyPressed() {
   }
 }
 
-void displayRepellers(){
-  for (PVector r : repellerArray) {
-    stroke(255);
-    noFill();
-    ellipse(r.x, r.y, 50, 50);
-  }
-}
-
-void removeRepellers(){
-  repellerArray.clear();
-}
 
 void mousePressed(){
-  repellerArray.add(new PVector(mouseX, mouseY));
-  println("New repeller!");
-  println("repellerArray.size(): "+repellerArray.size());
+  repellers.add(new PVector(mouseX, mouseY));
 }
 
 void stop() {

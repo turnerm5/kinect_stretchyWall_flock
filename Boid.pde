@@ -21,7 +21,7 @@ class Boid {
 
   void run(ArrayList<Boid> boids) {
     flock(boids);
-    repel(repellerArray);
+    repel(repellers.get());
     update();
     borders();
     render();

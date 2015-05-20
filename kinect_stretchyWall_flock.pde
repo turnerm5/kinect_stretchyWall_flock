@@ -30,8 +30,6 @@ float globalTurning   = .04477;
 float globalCoherence = 228.43;
 float globalAlign     = 21.58;
 
-int numOfBoids        = 500;
-
 //don't start off in correction mode
 Boolean correctionMode = false;
 
@@ -48,10 +46,6 @@ void setup() {
   }
 
   tracker = new KinectTracker();
-
-  for (int i = 0; i < numOfBoids; i++) {
-    flock.addBoid(new Boid(width/2, height/2));
-  }
 
 }
 

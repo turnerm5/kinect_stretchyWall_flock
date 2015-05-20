@@ -1,6 +1,5 @@
 class Repellers{
 
-
 	ArrayList<PVector> repellerArray; // An ArrayList for all the repellers
 	int timer = 0;
 	int timerLength = 500;

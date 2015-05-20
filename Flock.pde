@@ -3,7 +3,7 @@ PVector target;
 
 class Flock {
 
-  int resolution = 100;
+  int resolution = 20;
   int numOfBoids = 500;
   int cols = width / resolution;
   int rows = height / resolution;
@@ -48,26 +48,14 @@ class Flock {
       
       for (int n = -1; n <= 1; n++) {
         for (int m = -1; m <= 1; m++) {
-          if (x+n >= 0 && x+n < cols && y+m >= 0 && y+m< rows) grid[x+n][y+m].add(b);
+          if (x+n >= 0 && x+n < cols && y+m >= 0 && y+m< rows) {
+            grid[x+n][y+m].add(b);
+            ArrayList<Boid> temp = grid[x+n][y+m];
+            b.flock(temp);
+          }
         }
       }
     }
-
-    for (int i = 0; i < cols; i++) {
-      //line(i*resolution,0,i*resolution,height);
-      for (int j = 0; j < rows; j++) {
-        //line(0,j*resolution,width,j*resolution);
-        
-        // For every list in the grid
-        ArrayList<Boid> temp = grid[i][j];
-        // Check every Boid
-        for (Boid b : temp) {
-          //THIS IS WHERE WE'D DO THE CHECKING
-          b.flock(temp);
-        }
-      }
-    }
-
 
 
 

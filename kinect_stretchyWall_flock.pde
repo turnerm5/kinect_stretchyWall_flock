@@ -1,34 +1,39 @@
 import org.openkinect.*;
 import org.openkinect.processing.*;
 
+// Global Settings
 
 //turns off the Kinect sensing, uses the mouse as input
 Boolean debugMode = true;
 
-//don't start off in correction mode
-Boolean correctionMode = false;
-
-// Showing how we can farm all the kinect stuff out to a separate class
+// Classes
 KinectTracker tracker;
-
-// Kinect Library object
 Kinect kinect;
-
-float xSize, ySize, x, y;
-color pixelFill;
-color backColor = #343434;
-
-float force;
-float baseForce = 8;
-
-float globalSep;
-float globalSpeed;
-float globalTurning;
-float globalCoherence;
-float globalAlign;
-
 Flock flock;
 Repellers repellers;
+
+
+// Kinect options
+float force           = 0;
+float baseForce       = 8;
+
+
+// Display options
+float xSize, ySize, x, y;
+color pixelFill;
+color backColor       = #343434;
+
+// Flock settings
+float globalSep       = 24;
+float globalSpeed     = 7.93;
+float globalTurning   = .04477;
+float globalCoherence = 228.43;
+float globalAlign     = 21.58;
+
+int numOfBoids        = 300;
+
+//don't start off in correction mode
+Boolean correctionMode = false;
 
 void setup() {
   size(1024, 768);
@@ -37,14 +42,6 @@ void setup() {
   flock = new Flock();
   repellers = new Repellers();
 
-  //our flock settings
-  globalSep = 24;
-  globalSpeed = 7.93;
-  globalTurning = .04477;
-  globalCoherence = 228.43;
-  globalAlign = 21.58;
-
-
   //if we're not in debug mode, initialize the Kinect
   if (!debugMode){
     kinect = new Kinect(this);
@@ -52,7 +49,7 @@ void setup() {
 
   tracker = new KinectTracker();
 
-  for (int i = 0; i < 500; i++) {
+  for (int i = 0; i < numOfBoids; i++) {
     flock.addBoid(new Boid(width/2, height/2));
   }
 
@@ -83,7 +80,7 @@ void draw() {
   }
 
   flock.run();
-  repellers.display();
+  repellers.run();
 
 }
 

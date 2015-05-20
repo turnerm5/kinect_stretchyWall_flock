@@ -19,7 +19,7 @@ class Repellers{
 	void display(){
 	  for (PVector r : repellerArray) {
 	    noStroke();
-	    fill(80);
+	    fill(#5F3E3E);
 	    float t = constrain(map(timer,30,0,1,0),0,1);
 	    float radius = map(easeOutBounce(t),0,1,0,50);
 	    ellipse(r.x, r.y, radius, radius);

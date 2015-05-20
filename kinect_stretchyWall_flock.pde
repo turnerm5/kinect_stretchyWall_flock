@@ -1,6 +1,7 @@
 import org.openkinect.*;
 import org.openkinect.processing.*;
-
+import controlP5.*;
+ControlP5 controlP5;
 // Global Settings
 
 //turns off the Kinect sensing, uses the mouse as input
@@ -24,11 +25,11 @@ color pixelFill;
 color backColor       = #343434;
 
 // Flock settings
-float globalSep       = 24;
-float globalSpeed     = 7.93;
-float globalTurning   = .04477;
-float globalCoherence = 228.43;
-float globalAlign     = 21.58;
+float globalSep       = 24.25;
+float globalSpeed     = 5.02;
+float globalTurning   = .048;
+float globalCoherence = 3500.43;
+float globalAlign     = 85.58;
 
 //don't start off in correction mode
 Boolean correctionMode = false;
@@ -39,6 +40,13 @@ void setup() {
 
   flock = new Flock();
   repellers = new Repellers();
+  controlP5 = new ControlP5(this);
+
+  // controlP5.addSlider("Separation", 0, 50, globalSep, 10, 10, 200, 10);
+  // controlP5.addSlider("Speed", 1, 8, globalSpeed, 10, 25, 200, 10);
+  // controlP5.addSlider("Turning", .001, .300, globalTurning, 10, 40, 200, 10);
+  // controlP5.addSlider("Coherence", 1, 5000, globalCoherence, 10, 55, 200, 10);
+  // controlP5.addSlider("Alignment", 1, 175, globalAlign, 10, 70, 200, 10);
 
   //if we're not in debug mode, initialize the Kinect
   if (!debugMode){
@@ -148,10 +156,36 @@ void keyPressed() {
   }
 }
 
-
 void mousePressed(){
   repellers.add(new PVector(mouseX, mouseY));
 }
+
+void controlEvent(ControlEvent theEvent) {
+  if (theEvent.isController()) { 
+    if (theEvent.controller().name()=="Separation") {
+      globalSep = theEvent.controller().value();
+    }
+
+    if (theEvent.controller().name()=="Speed") {
+      globalSpeed = theEvent.controller().value();
+      flock.changeValue();
+    }
+
+    if (theEvent.controller().name()=="Turning") {
+      globalTurning = theEvent.controller().value();
+      flock.changeValue();
+    }
+
+    if (theEvent.controller().name()=="Coherence") {
+      globalCoherence = theEvent.controller().value();
+    }
+    
+    if (theEvent.controller().name()=="Alignment") {
+      globalAlign = theEvent.controller().value();
+    }
+  }
+}
+
 
 void stop() {
   tracker.quit();

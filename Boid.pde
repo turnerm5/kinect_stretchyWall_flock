@@ -13,7 +13,7 @@ class Boid {
     acceleration = new PVector(0, 0);
     velocity = PVector.random2D();
     location = new PVector(x, y);
-    r = 2;
+    r = 3;
     maxspeed = globalSpeed;
     maxforce = globalTurning;
   }
@@ -69,16 +69,16 @@ class Boid {
   }
 
   void render() {
-    float theta = velocity.heading() + PI/2;
-    fill(175);
+    float theta = velocity.heading() - PI/2;
+    fill(175,150);
     noStroke();
     pushMatrix();
       translate(location.x,location.y);
       rotate(theta);
       beginShape();
-      vertex(0, -r*2);
-      vertex(-r, r*2);
-      vertex(r, r*2);
+      vertex(0, 2 * r);
+      vertex(-r * sin((4 * PI ) / 3),r * cos((4 * PI) / 3));
+      vertex(-r * sin((2 * PI ) / 3),r * cos((2 * PI) / 3));
       endShape(CLOSE);
     popMatrix();
   }
@@ -94,10 +94,10 @@ class Boid {
     //go through each of our repellers
     for (PVector r : repellers) {
       PVector r_ = r.get();
-      float repelFactor = 500;
+      float repelFactor = 800;
       PVector v = velocity.get();
       v.normalize();
-      v.mult(100);
+      v.mult(75);
       v = PVector.add(location, v);
       r_.sub(v);
       float distance = r_.mag();

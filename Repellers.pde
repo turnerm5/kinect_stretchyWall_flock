@@ -32,8 +32,10 @@ class Repellers{
 	}
 
 	void add(PVector location){
-	  repellerArray.add(location);
-	  timer = timerLength;
+	  if (repellerArray.size() < 10){
+		  repellerArray.add(location);
+		  timer = timerLength;
+	  }
 	}
 
 	ArrayList<PVector> get(){

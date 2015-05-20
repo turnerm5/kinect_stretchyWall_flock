@@ -13,10 +13,9 @@ class Boid {
     acceleration = new PVector(0, 0);
     velocity = PVector.random2D();
     location = new PVector(x, y);
-    r = 2.0;
+    r = 2;
     maxspeed = globalSpeed;
     maxforce = globalTurning;
-  
   }
 
   void run(ArrayList<Boid> boids) {
@@ -61,15 +60,9 @@ class Boid {
   // A method that calculates and applies a steering force towards a target
   // STEER = DESIRED MINUS VELOCITY
   PVector seek(PVector target) {
-    PVector desired = PVector.sub(target, location);  // A vector pointing from the location to the target
-    // Scale to maximum speed
-    desired.normalize();
-    desired.mult(maxspeed);
-
-    // Above two lines of code below could be condensed with new PVector setMag() method
-    // Not using this method until Processing.js catches up
-    // desired.setMag(maxspeed);
-
+    // A vector pointing from the location to the target
+    PVector desired = PVector.sub(target, location);  
+    desired.setMag(maxspeed);
     // Steering = Desired minus Velocity
     PVector steer = PVector.sub(desired, velocity);
     steer.limit(maxforce);  // Limit to maximum steering force
@@ -81,15 +74,14 @@ class Boid {
     fill(175);
     noStroke();
     pushMatrix();
-    translate(location.x,location.y);
-    rotate(theta);
-    beginShape();
-    vertex(0, -r*2);
-    vertex(-r, r*2);
-    vertex(r, r*2);
-    endShape(CLOSE);
+      translate(location.x,location.y);
+      rotate(theta);
+      beginShape();
+      vertex(0, -r*2);
+      vertex(-r, r*2);
+      vertex(r, r*2);
+      endShape(CLOSE);
     popMatrix();
-
   }
 
   void borders() {
@@ -103,8 +95,12 @@ class Boid {
     //go through each of our repellers
     for (PVector r : repellers) {
       PVector r_ = r.get();
-      float repelFactor = 1000;
-      r_.sub(location);
+      float repelFactor = 500;
+      PVector v = velocity.get();
+      v.normalize();
+      v.mult(100);
+      v = PVector.add(location, v);
+      r_.sub(v);
       float distance = r_.mag();
       r_.normalize();
       r_.mult((-1 * repelFactor / sq(distance)));
@@ -118,11 +114,9 @@ class Boid {
     float desiredseparation = globalSep;
     PVector steer = new PVector(0, 0, 0);
     int count = 0;
-   
     // For every boid in the system, check if it's too close
     for (Boid other : boids) {
       float d = PVector.dist(location, other.location);
-      
       // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
       if ((d > 0) && (d < desiredseparation)) {
         // Calculate vector pointing away from neighbor
@@ -140,7 +134,7 @@ class Boid {
     }
 
     // As long as the vector is greater than 0
-    if (steer.mag() > 0) {
+    if (steer.magSq() > 0) {
       steer.setMag(maxspeed);
       steer.mult(maxspeed);
       steer.sub(velocity);

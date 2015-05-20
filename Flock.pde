@@ -2,8 +2,9 @@
 PVector target;
 
 class Flock {
-  ArrayList<Boid> boids; // An ArrayList for all the boids
 
+  ArrayList<Boid> boids; // An ArrayList for all the boids
+  
     Flock() {
     boids = new ArrayList<Boid>(); // Initialize the ArrayList
 

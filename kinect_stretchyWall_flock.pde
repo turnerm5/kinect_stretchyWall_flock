@@ -27,9 +27,9 @@ color backColor       = #343434;
 // Flock settings
 float globalSep       = 24.25;
 float globalSpeed     = 5.02;
-float globalTurning   = .048;
-float globalCoherence = 3500.43;
-float globalAlign     = 85.58;
+float globalTurning   = .18;
+float globalCoherence = 4500.43;
+float globalAlign     = 75.58;
 
 //don't start off in correction mode
 Boolean correctionMode = false;
@@ -58,8 +58,8 @@ void setup() {
 }
 
 void draw() {
-  
-  background(backColor);
+  fill(backColor, 80);
+  rect(0, 0, width, height);
   
   //if we're in correction mode
   if (correctionMode){
@@ -84,6 +84,7 @@ void draw() {
   flock.run();
   repellers.run();
 
+  frame.setTitle(int(frameRate) + " fps");
 }
 
 //if we hit a key
@@ -108,9 +109,12 @@ void keyPressed() {
   
   }
 
-  if (key == 's'){
-    repellers.clear();
+  if (key == 's') {
+    save("normal.png");
+    saveHiRes(3);
+    exit();
   }
+
 
   if (correctionMode){
     if (key == CODED) {
@@ -122,7 +126,6 @@ void keyPressed() {
       }
     }
   }
-
 
   //make it easy to adjust our threshold
   if (!debugMode &&! correctionMode){
@@ -186,6 +189,16 @@ void controlEvent(ControlEvent theEvent) {
   }
 }
 
+void saveHiRes(int scaleFactor) {
+  PGraphics hires = createGraphics(width*scaleFactor, height*scaleFactor, JAVA2D);
+  beginRecord(hires);
+    hires.scale(scaleFactor);
+    for (int i = 0; i < 5; ++i) {
+      draw();
+    }
+  endRecord();
+  hires.save("hires.png");
+}
 
 void stop() {
   tracker.quit();

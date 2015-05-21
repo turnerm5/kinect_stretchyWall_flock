@@ -4,7 +4,7 @@ PVector target;
 class Flock {
 
   int resolution = 100;
-  int numOfBoids = 500;
+  int numOfBoids = 600;
   int cols = width / resolution;
   int rows = height / resolution;
 
@@ -61,7 +61,11 @@ class Flock {
       }
 
       if (column >= 0 && column < cols && row >= 0 && row < rows) {
-        b.flock(grid[column][row]);
+        
+        // reduce the number of times our boids have to think.
+        if (frameCount % 3 == 0) {
+          b.flock(grid[column][row]);
+        }
       }
       
       b.run(boids);

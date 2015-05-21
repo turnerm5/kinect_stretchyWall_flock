@@ -70,12 +70,13 @@ class Boid {
 
   void render() {
     float theta = velocity.heading() - PI/2;
-    fill(175,150);
+    fill(175,200);
     noStroke();
     pushMatrix();
       translate(location.x,location.y);
       rotate(theta);
       beginShape();
+      fill(175,190);
       vertex(0, 2 * r);
       vertex(-r * sin((4 * PI ) / 3),r * cos((4 * PI) / 3));
       vertex(-r * sin((2 * PI ) / 3),r * cos((2 * PI) / 3));

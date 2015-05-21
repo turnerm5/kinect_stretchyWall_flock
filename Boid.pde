@@ -14,7 +14,7 @@ class Boid {
     acceleration = new PVector(0, 0);
     velocity = PVector.random2D();
     location = new PVector(x, y);
-    r = 3;
+    r = 2;
     maxspeed = globalSpeed;
     maxforce = globalTurning;
 
@@ -82,15 +82,16 @@ class Boid {
 
   void render() {
     float theta = velocity.heading() - PI/2;
+    float expansion = constrain( map(velocity.mag(),4.0,8.0,0,10.0) ,0,10);
     fill(fillColor, 80);
     noStroke();
     pushMatrix();
       translate(location.x,location.y);
       rotate(theta);
       beginShape();
-      vertex(0, 2 * r);
-      vertex(-r * sin((4 * PI ) / 3),r * cos((4 * PI) / 3));
-      vertex(-r * sin((2 * PI ) / 3),r * cos((2 * PI) / 3));
+      vertex(0, 3 * r);
+      vertex(-r * sin((4 * PI ) / 3) + expansion,r * cos((4 * PI) / 3));
+      vertex(-r * sin((2 * PI ) / 3) - expansion,r * cos((2 * PI) / 3));
       endShape(CLOSE);
     popMatrix();
   }

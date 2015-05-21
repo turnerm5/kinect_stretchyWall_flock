@@ -40,7 +40,7 @@ PVector mouse;
 void setup() {
   size(1024, 768);
   noStroke();
-  frameRate(30);
+  frameRate(60);
 
   flock = new Flock();
   repellers = new Repellers();
@@ -64,7 +64,7 @@ void setup() {
 }
 
 void draw() {
-  fill(backColor, 80);
+  fill(backColor, 50);
   rect(0, 0, width, height);
   
   mouse = new PVector(mouseX, mouseY);

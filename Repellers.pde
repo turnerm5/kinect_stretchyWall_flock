@@ -21,8 +21,8 @@ class Repellers{
 	    fill(80);
 	    float t = constrain(map(timer,30,0,1,0),0,1);
 	    float radius = map(easeOutBounce(t),0,1,0,50);
-	    float offset = map(noise(frameCount * (r.x / 5000)),0,1,-12,12);
-	    float offset2 = map(noise(frameCount * (r.y / 5000)),0,1,-12,12);
+	    float offset = map(noise(frameCount * (r.x / 5000)),0,1,-3,3);
+	    float offset2 = map(noise(frameCount * (r.y / 5000)),0,1,-3,3);
 	    ellipse(r.x, r.y, radius + offset, radius + offset2);
 	  }
 
@@ -38,6 +38,11 @@ class Repellers{
 		  repellerArray.add(location);
 		  timer = timerLength;
 	  }
+	}
+
+	void update(PVector location){
+		repellerArray.clear();
+		repellerArray.add(mouse);
 	}
 
 	ArrayList<PVector> get(){

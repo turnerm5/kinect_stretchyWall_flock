@@ -34,6 +34,9 @@ float globalAlign     = 75.58;
 //don't start off in correction mode
 Boolean correctionMode = false;
 
+PVector mouse;
+
+
 void setup() {
   size(1024, 768);
   noStroke();
@@ -42,6 +45,8 @@ void setup() {
   flock = new Flock();
   repellers = new Repellers();
   controlP5 = new ControlP5(this);
+
+  mouse = new PVector();
 
   // controlP5.addSlider("Separation", 0, 50, globalSep, 10, 10, 200, 10);
   // controlP5.addSlider("Speed", 1, 8, globalSpeed, 10, 25, 200, 10);
@@ -62,6 +67,8 @@ void draw() {
   fill(backColor, 80);
   rect(0, 0, width, height);
   
+  mouse = new PVector(mouseX, mouseY);
+
   //if we're in correction mode
   if (correctionMode){
     fill(25);
@@ -134,12 +141,12 @@ void keyPressed() {
     if (key == CODED) {
       if (keyCode == UP) {
         t+=1;
-        println("Threshold: "+t);
+        println("Threshold: " + t);
         tracker.setThreshold(t);
       } 
       else if (keyCode == DOWN) {
         t-=1;
-        println("Threshold: "+ t);
+        println("Threshold: " + t);
         tracker.setThreshold(t);
       }
     }
@@ -163,6 +170,14 @@ void keyPressed() {
 void mousePressed(){
   repellers.add(new PVector(mouseX, mouseY));
 }
+
+// void mouseDragged(){
+//   repellers.update(mouse);
+// }
+
+// void mouseReleased(){
+//   repellers.clear();
+// }
 
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isController()) { 

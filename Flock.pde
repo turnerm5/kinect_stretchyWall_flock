@@ -4,19 +4,16 @@ PVector target;
 class Flock {
 
   int resolution = 100;
-  int numOfBoids = 500;
-  int cols = width / resolution;
-  int rows = height / resolution;
+  int numOfBoids = 600;
+  int cols = (int)width / resolution;
+  int rows = (int)height / resolution;
 
   ArrayList<Boid> boids; // An ArrayList for all the boids
   ArrayList<Boid>[][] grid; // An grid of the boids
 
   Flock() {
-    boids = new ArrayList<Boid>(); // Initialize the ArrayList
+    boids = new ArrayList<Boid>(numOfBoids); // Initialize the ArrayList
     
-    println("cols: "+cols);
-    println("rows: "+rows);
-
     grid = new ArrayList[cols][rows];
     for (int i = 0; i < cols; i++) {
       for (int j = 0; j < rows; j++) {

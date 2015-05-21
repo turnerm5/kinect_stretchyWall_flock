@@ -13,14 +13,13 @@ class Boid {
     acceleration = new PVector(0, 0);
     velocity = PVector.random2D();
     location = new PVector(x, y);
-    r = 2;
+    r = 3;
     maxspeed = globalSpeed;
     maxforce = globalTurning;
   }
 
   void run(ArrayList<Boid> boids) {
-    flock(boids);
-    repel(repellers.get());
+    
     update();
     borders();
     render();
@@ -32,18 +31,25 @@ class Boid {
   }
 
   // We accumulate a new acceleration each time based on three rules
-  void flock(ArrayList<Boid> boids) {
+  void flock(ArrayList<Boid> boids, ArrayList<PVector> repellers_) {
+    
+    // repel(repellers.get());
+    repel(repellers_);
+    
     PVector sep = separate(boids);   // Separation
     PVector ali = align(boids);      // Alignment
     PVector coh = cohesion(boids);   // Cohesion
+    PVector view = view(boids);      // View
     // Arbitrarily weight these forces
     sep.mult(1.8);
     ali.mult(1.2);
     coh.mult(1.5);
+    view.mult(1.2);
     // Add the force vectors to acceleration
     applyForce(sep);
     applyForce(ali);
     applyForce(coh);
+    applyForce(view);
   }
 
   // Method to update location
@@ -70,16 +76,17 @@ class Boid {
   }
 
   void render() {
-    float theta = velocity.heading() + PI/2;
-    fill(175);
+    float theta = velocity.heading() - PI/2;
+    fill(175,200);
     noStroke();
     pushMatrix();
       translate(location.x,location.y);
       rotate(theta);
       beginShape();
-      vertex(0, -r*2);
-      vertex(-r, r*2);
-      vertex(r, r*2);
+      fill(175,190);
+      vertex(0, 2 * r);
+      vertex(-r * sin((4 * PI ) / 3),r * cos((4 * PI) / 3));
+      vertex(-r * sin((2 * PI ) / 3),r * cos((2 * PI) / 3));
       endShape(CLOSE);
     popMatrix();
   }
@@ -95,10 +102,10 @@ class Boid {
     //go through each of our repellers
     for (PVector r : repellers) {
       PVector r_ = r.get();
-      float repelFactor = 500;
+      float repelFactor = 1200;
       PVector v = velocity.get();
       v.normalize();
-      v.mult(100);
+      v.mult(75);
       v = PVector.add(location, v);
       r_.sub(v);
       float distance = r_.mag();
@@ -166,6 +173,37 @@ class Boid {
     else {
       return new PVector(0, 0);
     }
+  }
+
+  // Alignment
+  // For every nearby boid in the system, calculate the average velocity
+  PVector view (ArrayList<Boid> boids) {
+    
+    float neighbordist = globalAlign;   
+    PVector v = velocity.get();
+    v.normalize();
+    //a point 25 pixels out in front of the boid
+    v.mult(15);
+    
+    int count = 0;
+    
+    for (Boid other : boids) {
+      float d = PVector.dist(location, other.location);
+      
+      if ((d > 0) && (d < neighbordist)) {
+        if (blockingView(v,other.location,5.0)) {
+          PVector steer = velocity.get();
+          steer.rotate(HALF_PI);
+          steer.limit(maxforce);
+          return steer;
+        }
+      }
+    }
+    return new PVector(0, 0);
+  }
+
+  boolean blockingView(PVector a, PVector b, float diameter) {
+    return (dist(a.x, a.y, b.x, b.y) < diameter * 0.5);
   }
 
   // Cohesion

@@ -4,7 +4,7 @@ PVector target;
 class Flock {
 
   int resolution = 100;
-  int numOfBoids = 600;
+  int numOfBoids = 400;
   int cols = (int)width / resolution;
   int rows = (int)height / resolution;
 
@@ -22,7 +22,7 @@ class Flock {
     }
 
     for (int i = 0; i < numOfBoids; i++) {
-      addBoid(new Boid(width/2, height/2));
+      addBoid(new Boid(random(0, width), random(0, height)));
     }
   }
   

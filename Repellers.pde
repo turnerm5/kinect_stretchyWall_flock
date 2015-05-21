@@ -1,51 +1,39 @@
 class Repellers{
 
-	ArrayList<PVector> repellerArray; // An ArrayList for all the repellers
-	int timer = 0;
-	int timerLength = 90;
-
+	ArrayList<Repeller> repellerArray; // An ArrayList for all the repellers
+	
 	Repellers(){
-		  repellerArray = new ArrayList<PVector>(); // Initialize the ArrayList
-	}
-
-	void run(){
-		display();
-		if (timer < 1){
-			clear();
-		}
-	}
-
-	void display(){
-	  for (PVector r : repellerArray) {
-	    noStroke();
-	    fill(80);
-	    float t = constrain(map(timer,30,0,1,0),0,1);
-	    float radius = map(easeOutBounce(t),0,1,0,50);
-	    float offset = map(noise(frameCount * (r.x / 5000)),0,1,-3,3);
-	    float offset2 = map(noise(frameCount * (r.y / 5000)),0,1,-3,3);
-	    ellipse(r.x, r.y, radius + offset, radius + offset2);
-	  }
-
-	  timer -= 1;
+		repellerArray = new ArrayList<Repeller>(); // Initialize the ArrayList
 	}
 
 	void clear(){
 	  repellerArray.clear();
 	}
 
-	void add(PVector location){
+	void add(PVector location_){
 	  if (repellerArray.size() < 10){
-		  repellerArray.add(location);
-		  timer = timerLength;
+		  repellerArray.add(new Repeller(location_));
 	  }
 	}
 
-	void update(PVector location){
-		repellerArray.clear();
-		repellerArray.add(mouse);
+	void run(){
+		Iterator<Repeller> it = repellerArray.iterator();
+		while (it.hasNext()){
+			Repeller r = it.next();
+			r.run();
+			if (!r.alive){
+				it.remove();
+			}
+		}		
+
 	}
 
 	ArrayList<PVector> get(){
-		return repellerArray;
+		ArrayList<PVector> temp = new ArrayList<PVector>();
+		for (Repeller r : repellerArray) {
+			temp.add(r.get());
+		}
+		return temp;
 	}
+
 }

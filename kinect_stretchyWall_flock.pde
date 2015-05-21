@@ -1,6 +1,7 @@
 import org.openkinect.*;
 import org.openkinect.processing.*;
 import controlP5.*;
+import java.util.Iterator;
 ControlP5 controlP5;
 // Global Settings
 
@@ -12,7 +13,6 @@ KinectTracker tracker;
 Kinect kinect;
 Flock flock;
 Repellers repellers;
-
 
 // Kinect options
 float force           = 0;
@@ -38,7 +38,7 @@ PVector mouse;
 
 
 void setup() {
-  size(1024, 768);
+  size(1024, 768, P2D);
   noStroke();
   frameRate(60);
 
@@ -168,7 +168,7 @@ void keyPressed() {
 }
 
 void mousePressed(){
-  repellers.add(new PVector(mouseX, mouseY));
+  repellers.add(mouse);
 }
 
 // void mouseDragged(){

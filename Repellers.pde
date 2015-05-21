@@ -2,7 +2,7 @@ class Repellers{
 
 	ArrayList<PVector> repellerArray; // An ArrayList for all the repellers
 	int timer = 0;
-	int timerLength = 500;
+	int timerLength = 90;
 
 	Repellers(){
 		  repellerArray = new ArrayList<PVector>(); // Initialize the ArrayList

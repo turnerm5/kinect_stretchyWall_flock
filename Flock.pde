@@ -4,7 +4,7 @@ PVector target;
 class Flock {
 
   int resolution = 100;
-  int numOfBoids = 600;
+  int numOfBoids = 500;
   int cols = width / resolution;
   int rows = height / resolution;
 
@@ -29,7 +29,6 @@ class Flock {
     }
   }
   
-
   void run() {
      
     //using bin-lattice spatial subdivision 
@@ -37,20 +36,22 @@ class Flock {
     // Every time through draw clear all the lists
     for (int i = 0; i < cols; i++) {
       stroke(100);
+      // draw the lines, to help debug
       // line(i*resolution,0,i*resolution,height);
       for (int j = 0; j < rows; j++) {
+        //draw the lines, to help debug
         // line(0,j*resolution,width,j*resolution);
         grid[i][j].clear();
       }
     }
 
-      // Register every boid object in the grid according to it's location
+    // Register every boid object in the grid according to its location
     for (Boid b : boids) {      
       int column = int(b.location.x) / resolution; 
       int row = int(b.location.y) / resolution;
       
-      // It goes in 9 cells, i.e. every Boid is tested against other Boids in its cell
-      // as well as its 8 neighbors 
+      // It goes in 9 cells. An easy way for every boid to be tested against 
+      // other Boids in its cell, as well as its 8 neighbors 
       
       for (int n = -1; n <= 1; n++) {
         for (int m = -1; m <= 1; m++) {
@@ -63,11 +64,14 @@ class Flock {
       if (column >= 0 && column < cols && row >= 0 && row < rows) {
         
         // reduce the number of times our boids have to think.
-        if (frameCount % 3 == 0) {
-          b.flock(grid[column][row]);
+        // thanks Craig Reynolds for the tip!
+
+        if (frameCount % 2 == 0) {
+          b.flock(grid[column][row], repellers.get());
         }
       }
       
+      //
       b.run(boids);
 
     }

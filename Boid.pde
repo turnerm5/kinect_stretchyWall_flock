@@ -19,7 +19,7 @@ class Boid {
   }
 
   void run(ArrayList<Boid> boids) {
-    repel(repellers.get());
+    
     update();
     borders();
     render();
@@ -31,7 +31,11 @@ class Boid {
   }
 
   // We accumulate a new acceleration each time based on three rules
-  void flock(ArrayList<Boid> boids) {
+  void flock(ArrayList<Boid> boids, ArrayList<PVector> repellers_) {
+    
+    // repel(repellers.get());
+    repel(repellers_);
+    
     PVector sep = separate(boids);   // Separation
     PVector ali = align(boids);      // Alignment
     PVector coh = cohesion(boids);   // Cohesion
@@ -95,7 +99,7 @@ class Boid {
     //go through each of our repellers
     for (PVector r : repellers) {
       PVector r_ = r.get();
-      float repelFactor = 800;
+      float repelFactor = 1200;
       PVector v = velocity.get();
       v.normalize();
       v.mult(75);

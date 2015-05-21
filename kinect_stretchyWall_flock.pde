@@ -37,6 +37,7 @@ Boolean correctionMode = false;
 void setup() {
   size(1024, 768);
   noStroke();
+  frameRate(30);
 
   flock = new Flock();
   repellers = new Repellers();

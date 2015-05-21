@@ -21,7 +21,9 @@ class Repellers{
 	    fill(80);
 	    float t = constrain(map(timer,30,0,1,0),0,1);
 	    float radius = map(easeOutBounce(t),0,1,0,50);
-	    ellipse(r.x, r.y, radius, radius);
+	    float offset = map(noise(frameCount * (r.x / 5000)),0,1,-12,12);
+	    float offset2 = map(noise(frameCount * (r.y / 5000)),0,1,-12,12);
+	    ellipse(r.x, r.y, radius + offset, radius + offset2);
 	  }
 
 	  timer -= 1;

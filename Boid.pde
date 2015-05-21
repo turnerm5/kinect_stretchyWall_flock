@@ -8,6 +8,7 @@ class Boid {
   float r;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
+  color fillColor;
 
   Boid(float x, float y) {
     acceleration = new PVector(0, 0);
@@ -16,6 +17,10 @@ class Boid {
     r = 3;
     maxspeed = globalSpeed;
     maxforce = globalTurning;
+
+    fillColor = color(255);
+  
+
   }
 
   void run(ArrayList<Boid> boids) {
@@ -77,13 +82,12 @@ class Boid {
 
   void render() {
     float theta = velocity.heading() - PI/2;
-    fill(175,200);
+    fill(fillColor, 80);
     noStroke();
     pushMatrix();
       translate(location.x,location.y);
       rotate(theta);
       beginShape();
-      fill(175,190);
       vertex(0, 2 * r);
       vertex(-r * sin((4 * PI ) / 3),r * cos((4 * PI) / 3));
       vertex(-r * sin((2 * PI ) / 3),r * cos((2 * PI) / 3));
@@ -110,7 +114,7 @@ class Boid {
       r_.sub(v);
       float distance = r_.mag();
       r_.normalize();
-      r_.mult((-1 * repelFactor / sq(distance)));
+      r_.mult((1 * repelFactor / sq(distance)));
       acceleration.add(r_);
     }
   }

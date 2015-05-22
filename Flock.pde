@@ -69,7 +69,7 @@ class Flock {
       }
       
       //
-      b.run(boids);
+      b.run();
 
     }
   

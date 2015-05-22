@@ -24,6 +24,8 @@ float xSize, ySize, x, y;
 color pixelFill;
 color backColor       = #343434;
 
+boolean repel = false;
+
 // Flock settings
 float globalSep       = 24.25;
 float globalSpeed     = 5.02;
@@ -121,6 +123,10 @@ void keyPressed() {
     save("normal.png");
     saveHiRes(3);
     exit();
+  }
+
+  if (key == 'r') {
+    repel = !repel;
   }
 
 

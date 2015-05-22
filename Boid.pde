@@ -20,11 +20,9 @@ class Boid {
 
     fillColor = color(255);
   
-
   }
 
-  void run(ArrayList<Boid> boids) {
-    
+  void run() {
     update();
     borders();
     render();
@@ -115,7 +113,14 @@ class Boid {
       r_.sub(v);
       float distance = r_.mag();
       r_.normalize();
-      r_.mult((1 * repelFactor / sq(distance)));
+      
+      int factor = 1;
+
+      if (repel){
+        factor *= -1;
+      }
+
+      r_.mult((factor * repelFactor / sq(distance)));
       acceleration.add(r_);
     }
   }

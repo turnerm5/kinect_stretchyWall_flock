@@ -18,7 +18,7 @@ class Boid {
     maxspeed = globalSpeed;
     maxforce = globalTurning;
 
-    fillColor = color(255);
+    fillColor = color(20);
   
   }
 
@@ -108,17 +108,21 @@ class Boid {
       float repelFactor = 1200;
       PVector v = velocity.get();
       v.normalize();
-      v.mult(75);
-      v = PVector.add(location, v);
-      r_.sub(v);
-      float distance = r_.mag();
-      r_.normalize();
       
       int factor = 1;
 
       if (repel){
         factor *= -1;
+        v.mult(75);
+      } else {
+        v.mult(20);
       }
+
+      v = PVector.add(location, v);
+      r_.sub(v);
+      float distance = r_.mag();
+      r_.normalize();
+    
 
       r_.mult((factor * repelFactor / sq(distance)));
       acceleration.add(r_);
@@ -193,7 +197,7 @@ class Boid {
     PVector v = velocity.get();
     v.normalize();
     //a point 25 pixels out in front of the boid
-    v.mult(15);
+    v.mult(8);
     
     int count = 0;
     
@@ -203,7 +207,10 @@ class Boid {
       if ((d > 0) && (d < neighbordist)) {
         if (blockingView(v,other.location,5.0)) {
           PVector steer = velocity.get();
-          steer.rotate(HALF_PI);
+          
+          int test = (int)random(-1,1);
+
+          steer.rotate(HALF_PI * test);
           steer.limit(maxforce);
           return steer;
         }

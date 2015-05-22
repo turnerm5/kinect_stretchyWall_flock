@@ -22,9 +22,9 @@ float baseForce       = 8;
 // Display options
 float xSize, ySize, x, y;
 color pixelFill;
-color backColor       = #343434;
+color backColor       = #568EB5;
 
-boolean repel = false;
+boolean repel = true;
 
 // Flock settings
 float globalSep       = 24.25;
@@ -42,7 +42,7 @@ PVector mouse;
 void setup() {
   size(1024, 768, P2D);
   noStroke();
-  frameRate(60);
+  frameRate(30);
 
   flock = new Flock();
   repellers = new Repellers();
@@ -119,15 +119,14 @@ void keyPressed() {
   
   }
 
-  if (key == 's') {
-    save("normal.png");
-    saveHiRes(3);
-    exit();
-  }
-
   if (key == 'r') {
     repel = !repel;
   }
+
+  if (key == 's') {
+    saveFrame("frame####.jpg");
+  }
+
 
 
   if (correctionMode){
